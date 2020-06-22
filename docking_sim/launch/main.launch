@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+
+    <!-- # gazebo -->
+    <include file="$(find docking_gazebo)/launch/main.launch" />
+
+    <!-- # static tf -->
+    <node pkg="tf" type="static_transform_publisher" name="br1" args="0 0 0 0 0 0 1 map odom 100" />
+
+    <!-- # rviz -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find docking_sim)/rviz/nav.rviz" />
+
+</launch>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- include -->
+    <xacro:include filename="$(find docking_gazebo)/urdf/inertia.urdf.xacro" />
+    <xacro:include filename="$(find docking_gazebo)/urdf/property.urdf.xacro" />
+    <xacro:include filename="$(find docking_gazebo)/urdf/wheel.urdf.xacro" />
+    <xacro:include filename="$(find docking_gazebo)/urdf/ball.urdf.xacro" />
+    <xacro:include filename="$(find docking_gazebo)/urdf/lidar.urdf.xacro" />
+
+    <!-- base_link -->
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.45 0.45 0.20" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.01 0.01 0.01" />
+            </geometry>
+        </collision>
+        <xacro:box_inertial_matrix m="10.0" w="0.45" h="0.45" d="0.20" />
+    </link>
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <!-- Wheel Definitions -->
+    <xacro:wheel lr="right" transY="0.185" parent="base_link" />
+    <xacro:wheel lr="left" transY="-0.185" parent="base_link" />
+
+    <!-- Ball Definitions -->
+    <xacro:ball fb="front" transX="0.185" parent="base_link" />
+    <xacro:ball fb="back" transX="-0.185" parent="base_link" />
+
+    <!-- Lidar -->
+    <xacro:lidar />
+
+    <!-- wheel control -->
+    <gazebo>
+        <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+            <rosDebugLevel>Debug</rosDebugLevel>
+            <publishWheelTF>true</publishWheelTF>
+            <robotNamespace>/</robotNamespace>
+            <publishOdomTF>true</publishOdomTF>
+            <publishTf>1</publishTf>
+            <publishWheelJointState>true</publishWheelJointState>
+            <broadcastTF>1</broadcastTF>
+            <alwaysOn>true</alwaysOn>
+            <updateRate>100.0</updateRate>
+            <legacyMode>true</legacyMode>
+            <leftJoint>wheel_left_joint</leftJoint>
+            <rightJoint>wheel_right_joint</rightJoint>
+            <wheelSeparation>0.37</wheelSeparation>
+            <wheelDiameter>0.16</wheelDiameter>
+            <wheelTorque>30</wheelTorque>
+            <wheelAcceleration>1.8</wheelAcceleration>
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryFrame>odom</odometryFrame>
+            <odometryTopic>odom</odometryTopic>
+            <robotBaseFrame>base_link</robotBaseFrame>
+        </plugin>
+    </gazebo>
+
+</robot>

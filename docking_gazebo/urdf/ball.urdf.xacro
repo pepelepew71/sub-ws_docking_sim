@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Macro for ball joint -->
+    <xacro:macro name="ball" params="fb transX parent">
+        <!-- fb: front, back -->
+        <link name="${fb}_ball_link">
+            <visual>
+                <origin xyz="0 0 0 " rpy="0 0 0" />
+                <geometry>
+                    <sphere radius="0.04" />
+                </geometry>
+                <material name="Black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <sphere radius="0.04" />
+                </geometry>
+                <origin xyz="0 0 0 " rpy="0 0 0" />
+            </collision>
+            <xacro:sphere_inertial_matrix m="0.01" r="0.04" />
+        </link>
+
+        <gazebo reference="${fb}_ball_link">
+            <material>Gazebo/Black</material>
+        </gazebo>
+
+        <gazebo reference="${fb}_ball_link">
+            <mu1>0.01</mu1>
+            <mu2>0.01</mu2>
+            <!-- <kp>1000.0</kp>
+            <kd>1.0</kd>
+            <minDepth>0.0</minDepth>
+            <maxVel>5</maxVel>
+            <fdir1>0 0 0</fdir1> -->
+        </gazebo>
+
+        <joint name="${fb}_ball_joint" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${fb}_ball_link"/>
+            <origin xyz="${transX} 0 -0.14" rpy="0 0 0"/>
+        </joint>
+    </xacro:macro>
+
+</robot>
