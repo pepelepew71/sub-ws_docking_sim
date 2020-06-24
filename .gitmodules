@@ -1,0 +1,3 @@
+[submodule "obstacle_detector"]
+	path = obstacle_detector
+	url = git@github.com:spiderkiller13/obstacle_detector.git
