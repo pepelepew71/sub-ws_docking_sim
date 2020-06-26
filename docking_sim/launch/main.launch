@@ -11,13 +11,18 @@
     <!-- # obstacle_detector -->
     <include file="$(find obstacle_detector)/launch/nodes.launch" />
 
-    <!-- teleop -->
+    <!-- # teleop -->
     <include file="$(find ros_teleop)/launch/joy.launch" />
 
-    <!-- move_base -->
+    <!-- # move_base -->
     <include file="$(find docking_sim)/launch/_move_base.launch">
         <arg name="use_map" value="false" />
     </include>
+
+    <!-- # docking -->
+    <node pkg="docking_sim" type="docking.py" name="docking" output="screen">
+        <param name="ns_move_base" value="/move_base" />
+    </node>
 
     <!-- # rviz -->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find docking_sim)/rviz/nav.rviz" />
