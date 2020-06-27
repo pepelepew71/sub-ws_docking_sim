@@ -62,7 +62,7 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 add_service_files(
   FILES
-  Goto.srv
+  Prepare.srv
 )
 
 ## Generate actions in the 'action' folder
