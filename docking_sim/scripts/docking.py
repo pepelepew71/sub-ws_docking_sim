@@ -5,6 +5,8 @@ from __future__ import division
 import math
 import time
 
+import numpy as np
+
 import rospy
 import tf
 import actionlib
@@ -38,12 +40,15 @@ def _done_standby(status, result):
 def _feedback_leave(feedback):
     xn = float(feedback.base_position.pose.position.x)
     yn = float(feedback.base_position.pose.position.y)
-    pass
 
-def _pub_action_goal(ts, rz, start_cb=None, done_cb=None, feedback_cb=None):
+def _pub_action_goal(ts, q, start_cb=None, done_cb=None, feedback_cb=None):
+    """
+    Args:
+        ts (list): transform (map to goal)
+        q (tf.transformations.Quaterion): quaternion (map to goal)
+    """
     if start_cb:
         start_cb()
-    q = tf.transformations.quaternion_from_euler(ai=0.0, aj=0.0, ak=rz)
     goal = MoveBaseGoal()
     goal.target_pose.header.frame_id = 'map'
     goal.target_pose.header.stamp = rospy.Time.now()
@@ -56,15 +61,31 @@ def _pub_action_goal(ts, rz, start_cb=None, done_cb=None, feedback_cb=None):
     goal.target_pose.pose.orientation.w = q[3]
     ACT_MOVEBASE.send_goal(goal=goal, done_cb=done_cb, feedback_cb=feedback_cb)
 
-def _get_enter_rz(ts_c, ts_b):
+def _get_enter_q(ts_c, ts_b):
+    """
+    Args:
+        ts_c (list): transform (map to s_center_laser)
+        ts_b (list): transform (map to base_link)
+    Return:
+        (tf.transformations.Quaterion): quaternion
+    """
     dx = ts_c[0] - ts_b[0]
     dy = ts_c[1] - ts_b[1]
-    rz = math.atan2(dy, dx)
-    return rz
+    ak = math.atan2(dy, dx)
+    q = tf.transformations.quaternion_from_euler(ai=0.0, aj=0.0, ak=ak)
+    return q
 
-def _get_standby_ts(ts_c, rs_c, location):
+def _get_standby_ts(ts_c, q_c, location):
+    """
+    Args:
+        ts_c: transform (map to s_center_laser)
+        q_c (tf.transformations.Quaterion): quaternion (map to s_center_laser)
+        location (str): standby location (0, 1, 2, 3)
+    Return:
+        (list): transform
+    """
     x, y, _ = ts_c
-    rz = rs_c[2]
+    _, _, rz = tf.transformations.euler_from_quaternion((q_c[0], q_c[1], q_c[2], q_c[3]))
     length = 1.0
     choice = {"0": (length, 0.0), "1": (0.0, -length), "2": (-length, 0.0), "3": (0.0, length)}
     dx, dy = choice[location]
@@ -72,38 +93,66 @@ def _get_standby_ts(ts_c, rs_c, location):
     yn = y + dx*math.sin(rz) + dy*math.cos(rz)
     return (xn, yn, 0.0)
 
-def _get_standby_rz(rs_c, location):
+def _get_standby_q(q_c, location):
+    """
+    Args:
+        q_c (tf.transformations.Quaterion): quaternion (map to s_center_laser)
+        location (str): standby location (0, 1, 2, 3)
+    Return:
+        (tf.transformations.Quaterion): quaterion
+    """
     choice = {"0": -math.pi, "1": math.pi/2.0, "2": 0.0, "3": -math.pi/2.0}
-    rz = rs_c[2] + choice[location]
-    return rz
+    ak = choice[location]
+    p = tf.transformations.quaternion_from_euler(ai=0.0, aj=0.0, ak=ak)
+    q = tf.transformations.quaternion_multiply(q_c, (p[0], p[1], p[2], p[3]))
+    return q
 
 def _get_tf(source, target):
+    """
+    Args:
+        source (str): tf source
+        target (str): tf target
+    Return:
+        (tuple): transform, quaterion
+    """
     rate = rospy.Rate(hz=10)
     while True:
         try:
-            ts, rs = TF_LISTENER.lookupTransform(source, target, rospy.Time(secs=0))
+            ts, q = TF_LISTENER.lookupTransform(source, target, rospy.Time(secs=0))
             break
         except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
             rospy.loginfo("docking._get_tf error")
         rate.sleep()
-    return (ts, rs)
+    return (ts, q)
 
 def cb_standby(request):
-    ts_c, rs_c = _get_tf(source="map", target="s_center_laser")
-    ts = _get_standby_ts(ts_c=ts_c, rs_c=rs_c, location=request.location)
-    rz = _get_standby_rz(rs_c=rs_c, location=request.location)
-    _pub_action_goal(ts=ts, rz=rz, start_cb=_start_standby, done_cb=_done_standby)
+    """
+    Args:
+        request (docking_sim.srv.Standby)
+    Return:
+        (docking_sim.srv.StandbyResponse)
+    """
+    ts_c, q_c = _get_tf(source="map", target="s_center_laser")
+    ts = _get_standby_ts(ts_c=ts_c, q_c=q_c, location=request.location)
+    q = _get_standby_q(q_c=q_c, location=request.location)
+    _pub_action_goal(ts=ts, q=q, start_cb=_start_standby, done_cb=_done_standby)
     rate = rospy.Rate(hz=1)
     while IS_MOVING:
         rate.sleep()
     return StandbyResponse()
 
 def cb_enter(request):
+    """
+    Args:
+        request (std_srvs.srv.Empty)
+    Return:
+        (std_srvs.srv.EmptyResponse)
+    """
     ts_c, _ = _get_tf(source="map", target="s_center_laser")
     ts_b, _ = _get_tf(source="map", target="base_link")
-    rz = _get_enter_rz(ts_c=ts_c, ts_b=ts_b)
+    q = _get_enter_q(ts_c=ts_c, ts_b=ts_b)
 
-    _pub_action_goal(ts=ts_c, rz=rz, start_cb=_start_enter, done_cb=_done_enter)
+    _pub_action_goal(ts=ts_c, q=q, start_cb=_start_enter, done_cb=_done_enter)
 
     rate = rospy.Rate(hz=1)
     while IS_MOVING:
@@ -112,28 +161,69 @@ def cb_enter(request):
     return EmptyResponse()
 
 def cb_leave(request):
-    _, rs_c = _get_tf(source="map", target="s_center_laser")
-    rz_p = _get_standby_rz(rs_c=rs_c, location=request.location)
-
+    """
+    Args:
+        request (docking_sim.srv.Standby)
+    Return:
+        (docking_sim.srv.StandbyResponse)
+    """
+    _, q_c = _get_tf(source="map", target="s_center_laser")
+    q_l = _get_standby_q(q_c=q_c, location=request.location)
     ts_b, _ = _get_tf(source="map", target="base_link")
 
-    _pub_action_goal(ts=ts_b, rz=rz_p, start_cb=_start_standby, done_cb=_done_standby)
+    # -- step 1: rotate
+    _pub_action_goal(ts=ts_b, q=q_l, start_cb=_start_standby, done_cb=_done_standby)
 
     rate = rospy.Rate(hz=1)
     while IS_MOVING:
         rate.sleep()
 
-    _move_backward()
+    # -- step 2: leave
+    _move_backward_pid(location=request.location)
 
     return StandbyResponse()
 
-def _move_backward():
-    twist = Twist()
-    twist.linear.x = -0.1
-    PUB_CMDVEL.publish(twist)
-    time.sleep(10)
-    twist.linear.x = 0.0
-    PUB_CMDVEL.publish(twist)
+def _move_backward_pid(location):
+    """
+    Args:
+        location (str): standby location (0, 1, 2, 3)
+    """
+    wz_last = 0.0
+    p = 5.0
+    i = 0.0
+    t_start = rospy.get_rostime().to_sec()
+    rate = rospy.Rate(hz=5)
+    while True:
+        twist = Twist()
+        t_now = rospy.get_rostime().to_sec()
+        if t_now - t_start < 10.0:
+            twist.linear.x = -0.1
+            error = _get_yaw_error(location=location)
+            if abs(error) < 0.025:  # 1.432 degree
+                twist.angular.z = 0.0
+            else:
+                wz_now = p*error + i*wz_last
+                twist.angular.z = wz_now
+            wz_last = twist.angular.z
+            PUB_CMDVEL.publish(twist)
+        else:
+            PUB_CMDVEL.publish(twist)
+            break
+        rate.sleep()
+
+def _get_yaw_error(location):
+    """
+    Args:
+        location (str): standby location (0, 1, 2, 3)
+    Return:
+        (float): yaw error between standby location and base_link
+    """
+    _, q_c = _get_tf(source="map", target="s_center_laser")
+    q_l = _get_standby_q(q_c=q_c, location=location)
+    _, q_b = _get_tf(source="map", target="base_link")
+    r_b = tf.transformations.euler_from_quaternion(quaternion=q_b)
+    r_l = tf.transformations.euler_from_quaternion(quaternion=q_l)
+    return r_l[2] - r_b[2]
 
 if __name__ == "__main__":
 
