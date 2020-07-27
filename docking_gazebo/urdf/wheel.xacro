@@ -5,7 +5,7 @@
     <!-- Macro for wheel joint -->
     <xacro:macro name="wheel" params="lr transY parent">
         <!-- lr: left, right -->
-        <link name="wheel_${lr}_link">
+        <link name="wheel_${parent}_${lr}_link">
             <visual>
                 <origin xyz="0 0 0" rpy="${M_PI/2} 0  0 " />
                 <geometry>
@@ -22,11 +22,11 @@
             <xacro:cylinder_inertial_matrix m="0.4" r="0.08" h="0.04" />
         </link>
 
-        <gazebo reference="wheel_${lr}_link">
+        <gazebo reference="wheel_${parent}_${lr}_link">
             <material>Gazebo/Black</material>
         </gazebo>
 
-        <gazebo reference="wheel_${lr}_link">
+        <gazebo reference="wheel_${parent}_${lr}_link">
             <mu1>5.0</mu1>
             <mu2>1.0</mu2>
             <kp>10000.0</kp>
@@ -36,9 +36,9 @@
             <fdir1>0 0 0</fdir1>
         </gazebo>
 
-        <joint name="wheel_${lr}_joint" type="continuous">
+        <joint name="wheel_${parent}_${lr}_joint" type="continuous">
             <parent link="${parent}"/>
-            <child link="wheel_${lr}_link"/>
+            <child link="wheel_${parent}_${lr}_link"/>
             <origin xyz="0 ${transY} -0.1" rpy="0 0 0" />
             <axis xyz="0 1 0" rpy="0 0 0" />
         </joint>

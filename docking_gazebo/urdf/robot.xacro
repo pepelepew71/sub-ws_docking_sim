@@ -3,11 +3,11 @@
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <!-- include -->
-    <xacro:include filename="$(find docking_gazebo)/urdf/inertia.urdf.xacro" />
-    <xacro:include filename="$(find docking_gazebo)/urdf/property.urdf.xacro" />
-    <xacro:include filename="$(find docking_gazebo)/urdf/wheel.urdf.xacro" />
-    <xacro:include filename="$(find docking_gazebo)/urdf/ball.urdf.xacro" />
-    <xacro:include filename="$(find docking_gazebo)/urdf/lidar.urdf.xacro" />
+    <xacro:include filename="$(find docking_gazebo)/urdf/inertia.xacro" />
+    <xacro:include filename="$(find docking_gazebo)/urdf/property.xacro" />
+    <xacro:include filename="$(find docking_gazebo)/urdf/wheel.xacro" />
+    <xacro:include filename="$(find docking_gazebo)/urdf/ball.xacro" />
+    <xacro:include filename="$(find docking_gazebo)/urdf/lidar.xacro" />
 
     <!-- base_link -->
     <link name="base_link">

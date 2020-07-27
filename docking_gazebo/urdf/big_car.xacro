@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- # include -->
+    <xacro:include filename="$(find docking_gazebo)/urdf/inertia.xacro" />
+    <xacro:include filename="$(find docking_gazebo)/urdf/property.xacro" />
+    <xacro:include filename="$(find docking_gazebo)/urdf/small_car.xacro" />
+
+    <!-- # base_link -->
+    <link name="base_link">
+        <visual>
+            <origin xyz="-0.465 0 0.3" rpy="0 0 0" />
+            <geometry>
+                <box size="0.93 0.1 0.1" />
+            </geometry>
+        </visual>
+        <xacro:box_inertial_matrix m="0.01" w="0.93" h="0.1" d="0.1" />
+    </link>
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <!-- # small car 1 -->
+    <xacro:small_car name="car1" />
+
+    <joint name="car1_joint" type="fixed">
+    <!-- <joint name="car1_joint" type="continuous"> -->
+        <parent link="base_link"/>
+        <child link="car1"/>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <axis xyz="0 0 1" rpy="0 0 0" />
+    </joint>
+
+    <gazebo>
+        <plugin name="car1_control" filename="libgazebo_ros_diff_drive.so">
+            <rosDebugLevel>Debug</rosDebugLevel>
+            <publishWheelTF>true</publishWheelTF>
+            <robotNamespace>/</robotNamespace>
+            <publishOdomTF>true</publishOdomTF>
+            <publishTf>1</publishTf>
+            <publishWheelJointState>true</publishWheelJointState>
+            <broadcastTF>1</broadcastTF>
+            <alwaysOn>true</alwaysOn>
+            <updateRate>100.0</updateRate>
+            <legacyMode>true</legacyMode>
+            <leftJoint>wheel_car1_left_joint</leftJoint>
+            <rightJoint>wheel_car1_right_joint</rightJoint>
+            <wheelSeparation>0.37</wheelSeparation>
+            <wheelDiameter>0.16</wheelDiameter>
+            <wheelTorque>30</wheelTorque>
+            <wheelAcceleration>1.8</wheelAcceleration>
+            <commandTopic>cmd_vel_car1</commandTopic>
+            <odometryFrame>odom</odometryFrame>
+            <odometryTopic>odom_car1</odometryTopic>
+            <robotBaseFrame>car1</robotBaseFrame>
+        </plugin>
+    </gazebo>
+
+    <!-- # small car 2 -->
+    <!-- <xacro:small_car name="car2" />
+
+    <joint name="car2_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="car2"/>
+        <origin xyz="-0.93 0.0 0.0" rpy="0 0 0" />
+        <axis xyz="0 0 1" rpy="0 0 0" />
+    </joint> -->
+
+    <!-- <gazebo>
+        <plugin name="car2_control" filename="libgazebo_ros_diff_drive.so">
+            <rosDebugLevel>Debug</rosDebugLevel>
+            <publishWheelTF>true</publishWheelTF>
+            <robotNamespace>/</robotNamespace>
+            <publishOdomTF>true</publishOdomTF>
+            <publishTf>1</publishTf>
+            <publishWheelJointState>true</publishWheelJointState>
+            <broadcastTF>1</broadcastTF>
+            <alwaysOn>true</alwaysOn>
+            <updateRate>100.0</updateRate>
+            <legacyMode>true</legacyMode>
+            <leftJoint>wheel_car2_left_joint</leftJoint>
+            <rightJoint>wheel_car2_right_joint</rightJoint>
+            <wheelSeparation>0.37</wheelSeparation>
+            <wheelDiameter>0.16</wheelDiameter>
+            <wheelTorque>30</wheelTorque>
+            <wheelAcceleration>1.8</wheelAcceleration>
+            <commandTopic>cmd_vel_car2</commandTopic>
+            <odometryFrame>odom</odometryFrame>
+            <odometryTopic>odom_car2</odometryTopic>
+            <robotBaseFrame>car2</robotBaseFrame>
+        </plugin>
+    </gazebo> -->
+
+</robot>
