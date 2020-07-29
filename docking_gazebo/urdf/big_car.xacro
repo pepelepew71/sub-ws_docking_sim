@@ -12,10 +12,10 @@
         <visual>
             <origin xyz="-0.465 0 0.3" rpy="0 0 0" />
             <geometry>
-                <box size="0.93 0.1 0.1" />
+                <box size="0.93 0.1 0.05" />
             </geometry>
         </visual>
-        <xacro:box_inertial_matrix m="0.01" w="0.93" h="0.1" d="0.1" />
+        <xacro:box_inertial_matrix m="1e-4" w="0.93" h="0.1" d="0.1" />
     </link>
 
     <gazebo reference="base_link">
@@ -25,11 +25,10 @@
     <!-- # small car 1 -->
     <xacro:small_car name="car1" />
 
-    <joint name="car1_joint" type="fixed">
-    <!-- <joint name="car1_joint" type="continuous"> -->
-        <parent link="base_link"/>
-        <child link="car1"/>
-        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+    <joint name="car1_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="car1" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
         <axis xyz="0 0 1" rpy="0 0 0" />
     </joint>
 
@@ -52,23 +51,23 @@
             <wheelTorque>30</wheelTorque>
             <wheelAcceleration>1.8</wheelAcceleration>
             <commandTopic>cmd_vel_car1</commandTopic>
-            <odometryFrame>odom</odometryFrame>
+            <odometryFrame>base_link</odometryFrame>
             <odometryTopic>odom_car1</odometryTopic>
             <robotBaseFrame>car1</robotBaseFrame>
         </plugin>
     </gazebo>
 
     <!-- # small car 2 -->
-    <!-- <xacro:small_car name="car2" />
+    <xacro:small_car name="car2" />
 
-    <joint name="car2_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="car2"/>
-        <origin xyz="-0.93 0.0 0.0" rpy="0 0 0" />
+    <joint name="car2_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="car2" />
+        <origin xyz="-0.93 0 0" rpy="0 0 0" />
         <axis xyz="0 0 1" rpy="0 0 0" />
-    </joint> -->
+    </joint>
 
-    <!-- <gazebo>
+    <gazebo>
         <plugin name="car2_control" filename="libgazebo_ros_diff_drive.so">
             <rosDebugLevel>Debug</rosDebugLevel>
             <publishWheelTF>true</publishWheelTF>
@@ -87,10 +86,10 @@
             <wheelTorque>30</wheelTorque>
             <wheelAcceleration>1.8</wheelAcceleration>
             <commandTopic>cmd_vel_car2</commandTopic>
-            <odometryFrame>odom</odometryFrame>
+            <odometryFrame>base_link</odometryFrame>
             <odometryTopic>odom_car2</odometryTopic>
             <robotBaseFrame>car2</robotBaseFrame>
         </plugin>
-    </gazebo> -->
+    </gazebo>
 
 </robot>
