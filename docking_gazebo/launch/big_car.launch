@@ -4,10 +4,10 @@
 
     <!-- # gazebo -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/empty.world" /> -->
-        <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/cloister-1.world" /> -->
+        <arg name="world_name" value="$(find docking_gazebo)/worlds/empty.world" />
+        <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/cloister.world" /> -->
         <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/shelf.world" /> -->
-        <arg name="world_name" value="$(find docking_gazebo)/worlds/playpen-3.world" />
+        <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/playpen-3.world" /> -->
         <arg name="paused" value="false"/>
         <arg name="use_sim_time" value="true"/>
         <arg name="gui" value="true"/>
@@ -29,9 +29,12 @@
                 -model robot
                 -param robot_description" />
 
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" />
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" respawn="false" output="screen" />
 
     <!-- # static tf -->
-    <node pkg="tf" type="static_transform_publisher" name="br1" args="0 0 0 0 0 0 1 map odom 100" />
+    <node pkg="docking_gazebo" type="big_car_tf_br.py" name="big_car_tf_br">
+        <param name="car1_imu" value="/car1_imu" />
+        <param name="car2_imu" value="/car2_imu" />
+    </node>
 
 </launch>

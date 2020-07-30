@@ -10,6 +10,7 @@
         <xacro:include filename="$(find docking_gazebo)/urdf/wheel.xacro" />
         <xacro:include filename="$(find docking_gazebo)/urdf/ball.xacro" />
         <xacro:include filename="$(find docking_gazebo)/urdf/lidar.xacro" />
+        <xacro:include filename="$(find docking_gazebo)/urdf/imu.xacro" />
 
         <!-- # base_link -->
         <link name="${name}">
@@ -42,6 +43,9 @@
 
         <!-- Lidar -->
         <xacro:lidar parent="${name}" />
+
+        <!-- IMU -->
+        <xacro:imu parent="${name}" />
 
     </xacro:macro>
 

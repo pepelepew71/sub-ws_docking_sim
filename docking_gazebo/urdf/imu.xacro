@@ -3,8 +3,15 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:macro name="imu" params="parent">
+
+        <joint name="${parent}_imu_joint" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${parent}_imu_link"/>
+            <origin xyz="0 0 0.12" rpy="0 0 0" />
+        </joint>
+
         <link name="${parent}_imu_link">
-            <xacro:cylinder_inertial_matrix m="1e-5" r="0.02" h="0.05" />
+            <xacro:cylinder_inertial_matrix m="1e-5" r="0.01" h="0.01" />
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
@@ -25,7 +32,7 @@
                 <visualize>true</visualize>
                 <topic>__default_topic__</topic>
                 <plugin filename="libgazebo_ros_imu_sensor.so" name="${parent}_imu_plugin">
-                <topicName>imu</topicName>
+                <topicName>${parent}_imu</topicName>
                 <bodyName>${parent}_imu_link</bodyName>
                 <updateRateHZ>10.0</updateRateHZ>
                 <gaussianNoise>0.0</gaussianNoise>

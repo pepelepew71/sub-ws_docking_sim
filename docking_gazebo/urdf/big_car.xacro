@@ -10,12 +10,12 @@
     <!-- # base_link -->
     <link name="base_link">
         <visual>
-            <origin xyz="-0.465 0 0.3" rpy="0 0 0" />
+            <origin xyz="0 0 0.3" rpy="0 0 0" />
             <geometry>
                 <box size="0.93 0.1 0.05" />
             </geometry>
         </visual>
-        <xacro:box_inertial_matrix m="1e-1" w="0.93" h="0.1" d="0.1" />
+        <xacro:box_inertial_matrix m="1e-1" w="0.93" h="0.1" d="0.05" />
     </link>
 
     <gazebo reference="base_link">
@@ -28,7 +28,7 @@
     <joint name="car1_joint" type="continuous">
         <parent link="base_link" />
         <child link="car1" />
-        <origin xyz="0 0 0" rpy="0 0 0" />
+        <origin xyz="0.465 0 0" rpy="0 0 0" />
         <axis xyz="0 0 1" rpy="0 0 0" />
     </joint>
 
@@ -38,7 +38,7 @@
             <commandTopic>cmd_vel_car1</commandTopic>
             <odometryTopic>odom_car1</odometryTopic>
             <odometryFrame>odom</odometryFrame>
-            <robotBaseFrame>big_head</robotBaseFrame>
+            <robotBaseFrame>base_link</robotBaseFrame>
             <publishWheelTF>false</publishWheelTF>
             <publishWheelJointState>true</publishWheelJointState>
             <legacyMode>true</legacyMode>
@@ -67,7 +67,7 @@
     <joint name="car2_joint" type="continuous">
         <parent link="base_link" />
         <child link="car2" />
-        <origin xyz="-0.93 0 0" rpy="0 0 0" />
+        <origin xyz="-0.465 0 0" rpy="0 0 0" />
         <axis xyz="0 0 1" rpy="0 0 0" />
     </joint>
 
@@ -77,7 +77,7 @@
             <commandTopic>cmd_vel_car2</commandTopic>
             <odometryTopic>odom_car2</odometryTopic>
             <odometryFrame>odom</odometryFrame>
-            <robotBaseFrame>car2</robotBaseFrame>
+            <robotBaseFrame>base_link</robotBaseFrame>
             <publishWheelTF>false</publishWheelTF>
             <publishWheelJointState>true</publishWheelJointState>
             <legacyMode>true</legacyMode>
