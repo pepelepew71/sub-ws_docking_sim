@@ -4,14 +4,14 @@
 
     <xacro:macro name="small_car" params="name">
 
-        <!-- include -->
+        <!-- # include -->
         <xacro:include filename="$(find docking_gazebo)/urdf/inertia.xacro" />
         <xacro:include filename="$(find docking_gazebo)/urdf/property.xacro" />
         <xacro:include filename="$(find docking_gazebo)/urdf/wheel.xacro" />
         <xacro:include filename="$(find docking_gazebo)/urdf/ball.xacro" />
         <xacro:include filename="$(find docking_gazebo)/urdf/lidar.xacro" />
 
-        <!-- base_link -->
+        <!-- # base_link -->
         <link name="${name}">
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
@@ -25,20 +25,23 @@
                     <box size="0.01 0.01 0.01" />
                 </geometry>
             </collision>
-            <xacro:box_inertial_matrix m="1.0" w="0.45" h="0.45" d="0.20" />
+            <xacro:box_inertial_matrix m="1e-1" w="0.45" h="0.45" d="0.20" />
         </link>
 
         <gazebo reference="${name}">
             <material>Gazebo/Blue</material>
         </gazebo>
 
-        <!-- Wheel Definitions -->
+        <!-- # Wheel Definitions -->
         <xacro:wheel lr="right" transY="0.185" parent="${name}" />
         <xacro:wheel lr="left" transY="-0.185" parent="${name}" />
 
-        <!-- Ball Definitions -->
+        <!-- # Ball Definitions -->
         <xacro:ball fb="front" transX="0.185" parent="${name}" />
         <xacro:ball fb="back" transX="-0.185" parent="${name}" />
+
+        <!-- Lidar -->
+        <xacro:lidar parent="${name}" />
 
     </xacro:macro>
 

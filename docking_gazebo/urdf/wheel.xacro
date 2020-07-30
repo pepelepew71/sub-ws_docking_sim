@@ -19,7 +19,7 @@
                     <cylinder length="0.04" radius="0.08" />
                 </geometry>
             </collision>
-            <xacro:cylinder_inertial_matrix m="0.4" r="0.08" h="0.04" />
+            <xacro:cylinder_inertial_matrix m="1e-1" r="0.08" h="0.04" />
         </link>
 
         <gazebo reference="wheel_${parent}_${lr}_link">

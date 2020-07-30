@@ -39,7 +39,7 @@
     <xacro:ball fb="back" transX="-0.185" parent="base_link" />
 
     <!-- Lidar -->
-    <xacro:lidar />
+    <xacro:lidar parent="base_link" />
 
     <!-- wheel control -->
     <gazebo>

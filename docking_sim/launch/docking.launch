@@ -3,7 +3,7 @@
 <launch>
 
     <!-- # gazebo -->
-    <include file="$(find docking_gazebo)/launch/main.launch" />
+    <include file="$(find docking_gazebo)/launch/robot.launch" />
 
     <!-- # static tf -->
     <node pkg="tf" type="static_transform_publisher" name="br1" args="0 0 0 0 0 0 1 map odom 100" />

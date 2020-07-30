@@ -2,28 +2,22 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="laser">
 
-    <xacro:macro name="lidar">
+    <xacro:macro name="lidar" params="parent">
 
-        <joint name="lidar_joint" type="fixed">
-            <parent link="base_link"/>
-            <child link="lidar_link"/>
+        <joint name="${parent}_lidar_joint" type="fixed">
+            <parent link="${parent}"/>
+            <child link="${parent}_lidar_link"/>
             <origin xyz="0.185 0 0.125" rpy="0 0 0" />
         </joint>
 
-        <link name="lidar_link">
-            <inertial>
-                <mass value="0.1" />
-                <origin xyz="0 0 0" />
-                <inertia ixx="0.01" ixy="0.0" ixz="0.0"
-                         iyy="0.01" iyz="0.0"
-                         izz="0.01" />
-            </inertial>
+        <link name="${parent}_lidar_link">
+            <xacro:cylinder_inertial_matrix m="1e-5" r="0.02" h="0.05" />
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 0" />
                 <geometry>
                     <cylinder length="0.05" radius="0.02"/>
                 </geometry>
-                <material name="gray"/>
+                <material name="Black"/>
             </visual>
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0" />
@@ -33,11 +27,11 @@
             </collision>
         </link>
 
-        <gazebo reference="lidar_link">
+        <gazebo reference="${parent}_lidar_link">
             <material>Gazebo/Black</material>
         </gazebo>
 
-        <gazebo reference="lidar_link">
+        <gazebo reference="${parent}_lidar_link">
             <sensor type="ray" name="rplidar">
                 <pose>0 0 0 0 0 0</pose>
                 <visualize>false</visualize>
@@ -62,9 +56,9 @@
                         <stddev>0.01</stddev>
                     </noise>
                 </ray>
-                <plugin name="gazebo_rplidar" filename="libgazebo_ros_laser.so">
-                    <topicName>/scan</topicName>
-                    <frameName>lidar_link</frameName>
+                <plugin name="${parent}_lidar" filename="libgazebo_ros_laser.so">
+                    <topicName>/${parent}_scan</topicName>
+                    <frameName>${parent}_lidar_link</frameName>
                 </plugin>
             </sensor>
         </gazebo>

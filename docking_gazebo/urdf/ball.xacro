@@ -14,12 +14,12 @@
                 <material name="Black" />
             </visual>
             <collision>
+                <origin xyz="0 0 0 " rpy="0 0 0" />
                 <geometry>
                     <sphere radius="0.04" />
                 </geometry>
-                <origin xyz="0 0 0 " rpy="0 0 0" />
             </collision>
-            <xacro:sphere_inertial_matrix m="0.01" r="0.04" />
+            <xacro:sphere_inertial_matrix m="1e-1" r="0.04" />
         </link>
 
         <gazebo reference="${parent}_${fb}_ball_link">
@@ -27,8 +27,8 @@
         </gazebo>
 
         <gazebo reference="${parent}_${fb}_ball_link">
-            <mu1>0.01</mu1>
-            <mu2>0.01</mu2>
+            <mu1>0.001</mu1>
+            <mu2>0.001</mu2>
             <!-- <kp>1000.0</kp>
             <kd>1.0</kd>
             <minDepth>0.0</minDepth>
