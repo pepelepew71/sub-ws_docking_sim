@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 
+import math
 import threading
 
 import rospy
@@ -12,7 +13,7 @@ import tf_conversions
 
 class TfListener:
     """
-    Use threading to get listener tf odom -> big_car, and save them to global vars.
+    Use threading to get listener tf odom -> base_link, and save them to global vars.
     Attributes:
         _tf_buffer (tf2_ros.Buffer):
     """
@@ -22,21 +23,25 @@ class TfListener:
 
     def _job(self):
         '''
-        Update big_car's  pose and orientation in loop.
+        Get tf odom to base_link
         '''
         rate = rospy.Rate(hz=10.0)
         while not rospy.is_shutdown():
             try:
                 t = self._tf_buffer.lookup_transform(
-                    target_frame=frames["odom"],
-                    source_frame=frames["big_car"],
+                    target_frame="odom",
+                    source_frame="base_link",
                     time=rospy.Time())
             except Exception as err:
                 rospy.loginfo(err)
             else:
-                global BIG_CAR_P
+                global BIG_CAR_P, BIG_CAR_Q
                 BIG_CAR_P[0] = t.transform.translation.x
                 BIG_CAR_P[1] = t.transform.translation.y
+                BIG_CAR_Q[0] = t.transform.rotation.x
+                BIG_CAR_Q[1] = t.transform.rotation.y
+                BIG_CAR_Q[2] = t.transform.rotation.z
+                BIG_CAR_Q[3] = t.transform.rotation.w
             rate.sleep()
 
     def start_thread(self):
@@ -48,6 +53,9 @@ class TfListener:
 
 
 def _cb_car1_imu(msg):
+    """
+    Callback for topic car1 imu
+    """
     global CAR1_Q
     CAR1_Q[0] = msg.orientation.x
     CAR1_Q[1] = msg.orientation.y
@@ -55,6 +63,9 @@ def _cb_car1_imu(msg):
     CAR1_Q[3] = msg.orientation.w
 
 def _cb_car2_imu(msg):
+    """
+    Callback for topic car2 imu
+    """
     global CAR2_Q
     CAR2_Q[0] = msg.orientation.x
     CAR2_Q[1] = msg.orientation.y
@@ -62,13 +73,18 @@ def _cb_car2_imu(msg):
     CAR2_Q[3] = msg.orientation.w
 
 def get_car1_tf():
+    """
+    Get tf odom -> car1
+    Which is combined by base_link and imu information
+    """
     t = TransformStamped()
     t.header.stamp = rospy.Time.now()
-    t.header.frame_id = "base_link"
+    t.header.frame_id = "odom"
     t.child_frame_id = "car1"
-    t.transform.translation.x = 0.465
-    t.transform.translation.y = 0.0
-    t.transform.translation.z = -0.3
+    _, _, theta = tf.transformations.euler_from_quaternion(BIG_CAR_Q)
+    t.transform.translation.x = BIG_CAR_P[0] + 0.465*math.cos(theta)  # 0.465 is half lenght of big car
+    t.transform.translation.y = BIG_CAR_P[1] + 0.465*math.sin(theta)
+    t.transform.translation.z = 0.0
     t.transform.rotation.x = CAR1_Q[0]
     t.transform.rotation.y = CAR1_Q[1]
     t.transform.rotation.z = CAR1_Q[2]
@@ -76,13 +92,18 @@ def get_car1_tf():
     return t
 
 def get_car2_tf():
+    """
+    Get tf odom -> car2
+    Which is combined by base_link and imu information
+    """
     t = TransformStamped()
     t.header.stamp = rospy.Time.now()
-    t.header.frame_id = "base_link"
+    t.header.frame_id = "odom"
     t.child_frame_id = "car2"
-    t.transform.translation.x = -0.465
-    t.transform.translation.y = 0.0
-    t.transform.translation.z = -0.3
+    _, _, theta = tf.transformations.euler_from_quaternion(BIG_CAR_Q)
+    t.transform.translation.x = BIG_CAR_P[0] - 0.465*math.cos(theta)  # 0.465 is half lenght of big car
+    t.transform.translation.y = BIG_CAR_P[1] - 0.465*math.sin(theta)
+    t.transform.translation.z = 0.0
     t.transform.rotation.x = CAR2_Q[0]
     t.transform.rotation.y = CAR2_Q[1]
     t.transform.rotation.z = CAR2_Q[2]
@@ -92,13 +113,14 @@ def get_car2_tf():
 if __name__ == '__main__':
 
     # -- global vars
-    BIG_CAR_P = [0.0, 0.0]  # big_car pose (from odom)
-    CAR1_Q = [0.0, 0.0, 0.0, 1.0]  # car1 imu orientation (initial zero, from odom?)
-    CAR2_Q = [0.0, 0.0, 0.0, 1.0]  # car2 imu orientation (initial zero, from odom?)
+    BIG_CAR_P = [0.0, 0.0]  # base_link pose (tf odom to base_link)
+    BIG_CAR_Q = [0.0, 0.0, 0.0, 1.0]  # base_link orientation (tf odom to base_link)
+    CAR1_Q = [0.0, 0.0, 0.0, 1.0]  # car1 imu orientation (initial zero)
+    CAR2_Q = [0.0, 0.0, 0.0, 1.0]  # car2 imu orientation (initial zero)
 
     # -- ros node function
     ## -- parameters
-    rospy.init_node('big_car_tf_br')
+    rospy.init_node('br_big_car')
 
     top_car1_imu = rospy.get_param(param_name="~car1_imu", default="car1_imu")
     top_car2_imu = rospy.get_param(param_name="~car2_imu", default="car2_imu")
@@ -107,7 +129,7 @@ if __name__ == '__main__':
     rospy.Subscriber(name=top_car1_imu, data_class=Imu, callback=_cb_car1_imu)
     rospy.Subscriber(name=top_car2_imu, data_class=Imu, callback=_cb_car2_imu)
 
-    # -- tf listenser for big_car
+    # -- tf listenser from big_car
     tf_listener = TfListener()
     tf_listener.start_thread()
 

@@ -7,7 +7,7 @@
         <joint name="${parent}_imu_joint" type="fixed">
             <parent link="${parent}"/>
             <child link="${parent}_imu_link"/>
-            <origin xyz="0 0 0.12" rpy="0 0 0" />
+            <origin xyz="0 0 0.2" rpy="0 0 0" />
         </joint>
 
         <link name="${parent}_imu_link">

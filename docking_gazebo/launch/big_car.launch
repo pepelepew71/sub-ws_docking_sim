@@ -32,7 +32,7 @@
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" respawn="false" output="screen" />
 
     <!-- # static tf -->
-    <node pkg="docking_gazebo" type="big_car_tf_br.py" name="big_car_tf_br">
+    <node pkg="docking_gazebo" type="br_big_car.py" name="big_car_tf_br" output="screen">
         <param name="car1_imu" value="/car1_imu" />
         <param name="car2_imu" value="/car2_imu" />
     </node>
