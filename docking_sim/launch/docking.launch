@@ -11,9 +11,6 @@
     <!-- # obstacle_detector -->
     <include file="$(find obstacle_detector)/launch/nodes.launch" />
 
-    <!-- # teleop -->
-    <include file="$(find ros_teleop)/launch/joy.launch" />
-
     <!-- # move_base -->
     <include file="$(find docking_sim)/launch/_move_base.launch">
         <arg name="use_map" value="false" />

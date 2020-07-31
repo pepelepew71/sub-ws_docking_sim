@@ -44,26 +44,29 @@
     <!-- wheel control -->
     <gazebo>
         <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-            <rosDebugLevel>Debug</rosDebugLevel>
-            <publishWheelTF>true</publishWheelTF>
-            <robotNamespace>/</robotNamespace>
-            <publishOdomTF>true</publishOdomTF>
-            <publishTf>1</publishTf>
+
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+            <robotBaseFrame>base_link</robotBaseFrame>
+            <publishWheelTF>false</publishWheelTF>
             <publishWheelJointState>true</publishWheelJointState>
-            <broadcastTF>1</broadcastTF>
-            <alwaysOn>true</alwaysOn>
-            <updateRate>100.0</updateRate>
             <legacyMode>true</legacyMode>
-            <leftJoint>wheel_left_joint</leftJoint>
-            <rightJoint>wheel_right_joint</rightJoint>
+
             <wheelSeparation>0.37</wheelSeparation>
             <wheelDiameter>0.16</wheelDiameter>
-            <wheelTorque>30</wheelTorque>
             <wheelAcceleration>1.8</wheelAcceleration>
-            <commandTopic>cmd_vel</commandTopic>
-            <odometryFrame>odom</odometryFrame>
-            <odometryTopic>odom</odometryTopic>
-            <robotBaseFrame>base_link</robotBaseFrame>
+            <wheelTorque>100</wheelTorque>
+            <updateRate>30.0</updateRate>
+
+            <leftJoint>wheel_base_link_left_joint</leftJoint>
+            <rightJoint>wheel_base_link_right_joint</rightJoint>
+
+            <publishTf>true</publishTf>
+
+            <rosDebugLevel>na</rosDebugLevel>
+            <publishOdomTF>true</publishOdomTF>
+
         </plugin>
     </gazebo>
 
