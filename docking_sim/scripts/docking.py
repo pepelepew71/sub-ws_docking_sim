@@ -10,7 +10,7 @@ import numpy as np
 import rospy
 import tf
 import actionlib
-from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped, Polygon, Twist
+from geometry_msgs.msg import PoseStamped, PoseWithCovarianceStamped, Polygon, PolygonStamped, Twist
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from std_srvs.srv import Empty, EmptyResponse
 
@@ -241,8 +241,8 @@ if __name__ == "__main__":
     rospy.Service(name="~enter", service_class=Empty, handler=cb_enter)
     rospy.Service(name="~leave", service_class=Standby, handler=cb_leave)
 
-    PUB_FOOT_L = rospy.Publisher(name=ns_move_base+"/local_costmap/footprint", data_class=Polygon, queue_size=1)
-    PUB_FOOT_G = rospy.Publisher(name=ns_move_base+"/global_costmap/footprint", data_class=Polygon, queue_size=1)
+    PUB_FOOT_L = rospy.Publisher(name=ns_move_base+"/local_costmap/footprint", data_class=PolygonStamped, queue_size=1)
+    PUB_FOOT_G = rospy.Publisher(name=ns_move_base+"/global_costmap/footprint", data_class=PolygonStamped, queue_size=1)
     PUB_CMDVEL = rospy.Publisher(name="/cmd_vel", data_class=Twist, queue_size=1)
 
     rospy.spin()

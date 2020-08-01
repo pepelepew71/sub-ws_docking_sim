@@ -79,16 +79,16 @@ def get_car1_tf():
     """
     t = TransformStamped()
     t.header.stamp = rospy.Time.now()
-    t.header.frame_id = "odom"
+    t.header.frame_id = "base_link"
     t.child_frame_id = "car1"
-    _, _, theta = tf.transformations.euler_from_quaternion(BIG_CAR_Q)
-    t.transform.translation.x = BIG_CAR_P[0] + 0.465*math.cos(theta)  # 0.465 is half lenght of big car
-    t.transform.translation.y = BIG_CAR_P[1] + 0.465*math.sin(theta)
+    t.transform.translation.x = 0.465
+    t.transform.translation.y = 0.0
     t.transform.translation.z = 0.0
-    t.transform.rotation.x = CAR1_Q[0]
-    t.transform.rotation.y = CAR1_Q[1]
-    t.transform.rotation.z = CAR1_Q[2]
-    t.transform.rotation.w = CAR1_Q[3]
+    _q = tf.transformations.quaternion_multiply(CAR1_Q, tf.transformations.quaternion_inverse(BIG_CAR_Q))
+    t.transform.rotation.x = _q[0]
+    t.transform.rotation.y = _q[1]
+    t.transform.rotation.z = _q[2]
+    t.transform.rotation.w = _q[3]
     return t
 
 def get_car2_tf():
@@ -98,16 +98,16 @@ def get_car2_tf():
     """
     t = TransformStamped()
     t.header.stamp = rospy.Time.now()
-    t.header.frame_id = "odom"
+    t.header.frame_id = "base_link"
     t.child_frame_id = "car2"
-    _, _, theta = tf.transformations.euler_from_quaternion(BIG_CAR_Q)
-    t.transform.translation.x = BIG_CAR_P[0] - 0.465*math.cos(theta)  # 0.465 is half lenght of big car
-    t.transform.translation.y = BIG_CAR_P[1] - 0.465*math.sin(theta)
+    t.transform.translation.x = -0.465
+    t.transform.translation.y = 0.0
     t.transform.translation.z = 0.0
-    t.transform.rotation.x = CAR2_Q[0]
-    t.transform.rotation.y = CAR2_Q[1]
-    t.transform.rotation.z = CAR2_Q[2]
-    t.transform.rotation.w = CAR2_Q[3]
+    _q = tf.transformations.quaternion_multiply(CAR2_Q, tf.transformations.quaternion_inverse(BIG_CAR_Q))
+    t.transform.rotation.x = _q[0]
+    t.transform.rotation.y = _q[1]
+    t.transform.rotation.z = _q[2]
+    t.transform.rotation.w = _q[3]
     return t
 
 if __name__ == '__main__':

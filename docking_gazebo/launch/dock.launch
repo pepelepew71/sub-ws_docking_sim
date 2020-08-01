@@ -4,10 +4,10 @@
 
     <!-- # gazebo -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(find docking_gazebo)/worlds/empty.world" />
+        <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/empty.world" /> -->
         <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/cloister-1.world" /> -->
         <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/shelf.world" /> -->
-        <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/playpen-3.world" /> -->
+        <arg name="world_name" value="$(find docking_gazebo)/worlds/playpen-3.world" />
         <arg name="paused" value="false"/>
         <arg name="use_sim_time" value="true"/>
         <arg name="gui" value="true"/>
@@ -16,7 +16,7 @@
     </include>
 
     <!-- # load robot description -->
-    <param name="robot_description" command="$(find xacro)/xacro '$(find docking_gazebo)/urdf/robot.xacro'" />
+    <param name="robot_description" command="$(find xacro)/xacro '$(find docking_gazebo)/urdf/one_car.xacro'" />
 
     <node name="spawner_model" pkg="gazebo_ros" type="spawn_model"
           args="-x 0

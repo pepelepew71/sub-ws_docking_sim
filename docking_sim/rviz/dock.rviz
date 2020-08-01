@@ -75,7 +75,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.0500000007
       Style: Flat Squares
-      Topic: /scan
+      Topic: /car1_scan
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: false
@@ -90,32 +90,42 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        back_ball_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        front_ball_link:
+        car1:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        lidar_link:
+        car1_back_ball_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel_left_link:
+        car1_front_ball_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        wheel_right_link:
+        car1_imu_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        car1_lidar_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_car1_left_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        wheel_car1_right_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -131,24 +141,26 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        back_ball_link:
-          Value: false
         base_link:
           Value: true
-        front_ball_link:
-          Value: false
-        lidar_link:
-          Value: false
+        car1:
+          Value: true
+        car1_back_ball_link:
+          Value: true
+        car1_front_ball_link:
+          Value: true
+        car1_imu_link:
+          Value: true
+        car1_lidar_link:
+          Value: true
         map:
           Value: true
         odom:
           Value: true
-        s_center_laser:
+        wheel_car1_left_link:
           Value: true
-        wheel_left_link:
-          Value: false
-        wheel_right_link:
-          Value: false
+        wheel_car1_right_link:
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -158,18 +170,19 @@ Visualization Manager:
         map:
           odom:
             base_link:
-              back_ball_link:
-                {}
-              front_ball_link:
-                {}
-              lidar_link:
-                {}
-              wheel_left_link:
-                {}
-              wheel_right_link:
-                {}
-          s_center_laser:
-            {}
+              car1:
+                car1_back_ball_link:
+                  {}
+                car1_front_ball_link:
+                  {}
+                car1_imu_link:
+                  {}
+                car1_lidar_link:
+                  {}
+                wheel_car1_left_link:
+                  {}
+                wheel_car1_right_link:
+                  {}
       Update Interval: 0
       Value: true
     - Alpha: 0.699999988
@@ -353,7 +366,7 @@ Visualization Manager:
       Marker Topic: /marker_line
       Name: MarkerArray
       Namespaces:
-        tiles: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -361,7 +374,7 @@ Visualization Manager:
       Marker Topic: /marker_sphere
       Name: MarkerArray
       Namespaces:
-        tiles: true
+        {}
       Queue Size: 100
       Value: true
   Enabled: true
@@ -398,7 +411,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 76.8996658
+      Scale: 80.1024704
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
       X: 0
@@ -420,5 +433,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 958
-  X: 942
+  X: 940
   Y: 25

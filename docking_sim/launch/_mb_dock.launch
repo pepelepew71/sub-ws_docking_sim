@@ -12,16 +12,13 @@
 
         <!-- # planner global -->
         <rosparam file="$(find ros_my_move_base)/config/planner/GlobalPlanner.yaml" command="load" />
-        <!-- <rosparam file="$(find ros_my_move_base)/config/planner/NavfnROS.yaml" command="load" /> -->
 
         <!-- # planner local -->
-        <!-- <rosparam file="$(find ros_my_move_base)/config/planner/TrajectoryPlannerROS.yaml" command="load" /> -->
-        <rosparam file="$(find docking_sim)/config/planner/DWAPlannerROS.yaml" command="load" />
-        <!-- <rosparam file="$(find ros_my_move_base)/config/planner/TebLocalPlannerROS.yaml" command="load" /> -->
+        <rosparam file="$(find docking_sim)/config/dock/planner/DWAPlannerROS.yaml" command="load" />
 
         <!-- # costmap common -->
-        <rosparam file="$(find docking_sim)/config/costmap/common.yaml" command="load" ns="global_costmap" />
-        <rosparam file="$(find docking_sim)/config/costmap/common.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find docking_sim)/config/dock/costmap/common.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find docking_sim)/config/dock/costmap/common.yaml" command="load" ns="local_costmap" />
 
         <!-- # costmap global -->
         <rosparam if="$(arg use_map)" file="$(find ros_my_move_base)/config/costmap/global_use_map.yaml" command="load" ns="global_costmap" />
@@ -30,9 +27,8 @@
         <!-- # costmap local -->
         <rosparam file="$(find ros_my_move_base)/config/costmap/local.yaml" command="load" ns="local_costmap" />
 
-        <!-- # for twist_mux multi-input -->
-        <!-- <remap from="cmd_vel" to="nav_vel" /> -->
-
+        <!-- # remap -->
+        <remap from="cmd_vel" to="cmd_vel_car1" />
     </node>
 
 </launch>

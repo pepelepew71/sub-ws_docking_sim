@@ -10,12 +10,12 @@
     <!-- # base_link -->
     <link name="base_link">
         <visual>
-            <origin xyz="0 0 0.3" rpy="0 0 0" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
-                <box size="0.93 0.1 0.05" />
+                <box size="0.01 0.01 0.01" />
             </geometry>
         </visual>
-        <xacro:box_inertial_matrix m="1e-2" w="0.93" h="0.1" d="0.05" />
+        <xacro:box_inertial_matrix m="1e-5" w="0.01" h="0.01" d="0.01" />
     </link>
 
     <gazebo reference="base_link">
@@ -25,18 +25,17 @@
     <!-- # small car 1 -->
     <xacro:small_car name="car1" />
 
-    <joint name="car1_joint" type="continuous">
+    <joint name="car1_joint" type="fixed">
         <parent link="base_link" />
         <child link="car1" />
-        <origin xyz="0.465 0 0" rpy="0 0 0" />
-        <axis xyz="0 0 1" rpy="0 0 0" />
+        <origin xyz="0.0 0 0" rpy="0 0 0" />
     </joint>
 
     <gazebo>
         <plugin name="car1_control" filename="libgazebo_ros_diff_drive.so">
 
             <commandTopic>cmd_vel_car1</commandTopic>
-            <odometryTopic>base_link_odom</odometryTopic>
+            <odometryTopic>car1_odom</odometryTopic>
             <odometryFrame>odom</odometryFrame>
             <robotBaseFrame>base_link</robotBaseFrame>
             <publishWheelTF>false</publishWheelTF>
@@ -56,45 +55,6 @@
 
             <rosDebugLevel>na</rosDebugLevel>
             <publishOdomTF>true</publishOdomTF>
-
-        </plugin>
-    </gazebo>
-
-
-    <!-- # small car 2 -->
-    <xacro:small_car name="car2" />
-
-    <joint name="car2_joint" type="continuous">
-        <parent link="base_link" />
-        <child link="car2" />
-        <origin xyz="-0.465 0 0" rpy="0 0 0" />
-        <axis xyz="0 0 1" rpy="0 0 0" />
-    </joint>
-
-    <gazebo>
-        <plugin name="car2_control" filename="libgazebo_ros_diff_drive.so">
-
-            <commandTopic>cmd_vel_car2</commandTopic>
-            <odometryTopic>odom_car2</odometryTopic>
-            <odometryFrame>odom</odometryFrame>
-            <robotBaseFrame>base_link</robotBaseFrame>
-            <publishWheelTF>false</publishWheelTF>
-            <publishWheelJointState>true</publishWheelJointState>
-            <legacyMode>true</legacyMode>
-
-            <wheelSeparation>0.37</wheelSeparation>
-            <wheelDiameter>0.16</wheelDiameter>
-            <wheelAcceleration>1.8</wheelAcceleration>
-            <wheelTorque>100</wheelTorque>
-            <updateRate>30.0</updateRate>
-
-            <leftJoint>wheel_car2_left_joint</leftJoint>
-            <rightJoint>wheel_car2_right_joint</rightJoint>
-
-            <publishTf>false</publishTf>
-
-            <rosDebugLevel>na</rosDebugLevel>
-            <publishOdomTF>false</publishOdomTF>
 
         </plugin>
     </gazebo>

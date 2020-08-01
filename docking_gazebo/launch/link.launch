@@ -4,10 +4,10 @@
 
     <!-- # gazebo -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(find docking_gazebo)/worlds/empty.world" />
+        <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/empty.world" /> -->
         <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/cloister.world" /> -->
         <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/shelf.world" /> -->
-        <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/playpen-3.world" /> -->
+        <arg name="world_name" value="$(find docking_gazebo)/worlds/playpen-3.world" />
         <arg name="paused" value="false"/>
         <arg name="use_sim_time" value="true"/>
         <arg name="gui" value="true"/>
@@ -36,5 +36,12 @@
         <param name="car1_imu" value="/car1_imu" />
         <param name="car2_imu" value="/car2_imu" />
     </node>
+
+    <!-- # merge scan, delay 2 sec -->
+    <include file="$(find timed_roslaunch)/launch/timed_roslaunch.launch">
+        <arg name="time" value="5" />
+        <arg name="pkg" value="docking_gazebo" />
+        <arg name="file" value="_merge_scan.launch" />
+    </include>
 
 </launch>
