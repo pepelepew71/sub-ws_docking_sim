@@ -4,7 +4,7 @@
 
     <!-- # merge scan -->
     <node pkg="ira_laser_tools" name="scan_merger" type="laserscan_multi_merger" output="screen">
-        <param name="destination_frame" value="odom" />
+        <param name="destination_frame" value="base_link" />
         <param name="cloud_destination_topic" value="merged_cloud" />
         <param name="scan_destination_topic" value="scan_merged" />
         <param name="laserscan_topics" value="/car1_scan /car2_scan" />
