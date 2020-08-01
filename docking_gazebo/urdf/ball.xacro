@@ -19,7 +19,7 @@
                     <sphere radius="0.04" />
                 </geometry>
             </collision>
-            <xacro:sphere_inertial_matrix m="1e-1" r="0.04" />
+            <xacro:sphere_inertial_matrix m="0.1" r="0.04" />
         </link>
 
         <gazebo reference="${parent}_${fb}_ball_link">
@@ -27,13 +27,8 @@
         </gazebo>
 
         <gazebo reference="${parent}_${fb}_ball_link">
-            <mu1>0.001</mu1>
-            <mu2>0.001</mu2>
-            <!-- <kp>1000.0</kp>
-            <kd>1.0</kd>
-            <minDepth>0.0</minDepth>
-            <maxVel>5</maxVel>
-            <fdir1>0 0 0</fdir1> -->
+            <mu1>0.0001</mu1>
+            <mu2>0.0001</mu2>
         </gazebo>
 
         <joint name="${parent}_${fb}_ball_joint" type="fixed">

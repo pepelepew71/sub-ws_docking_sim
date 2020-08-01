@@ -5,6 +5,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /TF1/Frames1
+        - /Pose1
       Splitter Ratio: 0.5
     Tree Height: 717
   - Class: rviz/Selection
@@ -362,7 +363,7 @@ Visualization Manager:
       Length: 0.300000012
       Line Style: Lines
       Line Width: 0.0299999993
-      Name: Path global
+      Name: Path DWA Global
       Offset:
         X: 0
         Y: 0
@@ -378,6 +379,29 @@ Visualization Manager:
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
+      Color: 25; 255; 0
+      Enabled: true
+      Head Diameter: 0.300000012
+      Head Length: 0.200000003
+      Length: 0.300000012
+      Line Style: Lines
+      Line Width: 0.0299999993
+      Name: Path TEB Global
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Radius: 0.0299999993
+      Shaft Diameter: 0.100000001
+      Shaft Length: 0.100000001
+      Topic: /move_base/TebLocalPlannerROS/global_plan
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
       Color: 255; 0; 0
       Enabled: true
       Head Diameter: 0.300000012
@@ -385,7 +409,7 @@ Visualization Manager:
       Length: 0.300000012
       Line Style: Billboards
       Line Width: 0.0299999993
-      Name: Path DWA
+      Name: Path DWA Local
       Offset:
         X: 0
         Y: 0
@@ -408,7 +432,7 @@ Visualization Manager:
       Length: 0.300000012
       Line Style: Billboards
       Line Width: 0.0299999993
-      Name: Path TEB
+      Name: Path TEB Local
       Offset:
         X: 0
         Y: 0
@@ -449,6 +473,21 @@ Visualization Manager:
       Topic: /move_base/global_costmap/footprint
       Unreliable: false
       Value: true
+    - Alpha: 0.5
+      Axes Length: 1
+      Axes Radius: 0.100000001
+      Class: rviz/Pose
+      Color: 0; 0; 0
+      Enabled: true
+      Head Length: 0.100000001
+      Head Radius: 0.100000001
+      Name: Pose
+      Shaft Length: 0.5
+      Shaft Radius: 0.00999999978
+      Shape: Arrow
+      Topic: /move_base_simple/goal
+      Unreliable: false
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -483,11 +522,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 88.5078888
+      Scale: 225.37587
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 0.237550363
-      Y: -0.318896532
+      X: 0
+      Y: 0
     Saved: ~
 Window Geometry:
   Displays:
@@ -505,5 +544,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 958
-  X: 951
+  X: 947
   Y: 25

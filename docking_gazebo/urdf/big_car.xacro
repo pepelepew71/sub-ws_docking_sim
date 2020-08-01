@@ -44,9 +44,9 @@
             <legacyMode>true</legacyMode>
 
             <wheelSeparation>0.37</wheelSeparation>
-            <wheelDiameter>0.16</wheelDiameter>
+            <wheelDiameter>0.066</wheelDiameter>
             <wheelAcceleration>1.8</wheelAcceleration>
-            <wheelTorque>100</wheelTorque>
+            <wheelTorque>10</wheelTorque>
             <updateRate>30.0</updateRate>
 
             <leftJoint>wheel_car1_left_joint</leftJoint>
@@ -83,9 +83,9 @@
             <legacyMode>true</legacyMode>
 
             <wheelSeparation>0.37</wheelSeparation>
-            <wheelDiameter>0.16</wheelDiameter>
+            <wheelDiameter>0.066</wheelDiameter>
             <wheelAcceleration>1.8</wheelAcceleration>
-            <wheelTorque>100</wheelTorque>
+            <wheelTorque>10</wheelTorque>
             <updateRate>30.0</updateRate>
 
             <leftJoint>wheel_car2_left_joint</leftJoint>
