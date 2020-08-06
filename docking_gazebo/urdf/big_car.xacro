@@ -15,7 +15,7 @@
                 <box size="0.93 0.1 0.05" />
             </geometry>
         </visual>
-        <xacro:box_inertial_matrix m="1e-2" w="0.93" h="0.1" d="0.05" />
+        <xacro:box_inertial_matrix m="1.0" w="0.93" h="0.1" d="0.05" />
     </link>
 
     <gazebo reference="base_link">
