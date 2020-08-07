@@ -2,7 +2,7 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:macro name="small_car" params="name">
+    <xacro:macro name="small_car" params="name yaw_offset">
 
         <!-- # include -->
         <xacro:include filename="$(find docking_gazebo)/urdf/inertia.xacro" />
@@ -45,7 +45,7 @@
         <xacro:lidar parent="${name}" />
 
         <!-- IMU -->
-        <xacro:imu parent="${name}" />
+        <xacro:imu parent="${name}" yaw_offset="${yaw_offset}"/>
 
     </xacro:macro>
 

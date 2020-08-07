@@ -23,7 +23,7 @@
     </gazebo>
 
     <!-- # small car 1 -->
-    <xacro:small_car name="car1" />
+    <xacro:small_car name="car1" yaw_offset="0" />
 
     <joint name="car1_joint" type="continuous">
         <parent link="base_link" />
@@ -62,12 +62,12 @@
 
 
     <!-- # small car 2 -->
-    <xacro:small_car name="car2" />
+    <xacro:small_car name="car2" yaw_offset="3.14" />
 
     <joint name="car2_joint" type="continuous">
         <parent link="base_link" />
         <child link="car2" />
-        <origin xyz="-0.465 0 0" rpy="0 0 0" />
+        <origin xyz="-0.465 0 0" rpy="0 0 3.14" />
         <axis xyz="0 0 1" rpy="0 0 0" />
     </joint>
 
