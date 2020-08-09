@@ -4,7 +4,7 @@
 
     <arg name="gui" default="true"/>
     <arg name="rviz_path" default="$(find docking_sim)/rviz/link.rviz"/>
-    
+
     <!-- # gazebo -->
     <include file="$(find docking_gazebo)/launch/link.launch">
         <arg name="gui" value="$(arg gui)"/>
@@ -17,6 +17,7 @@
 
     <!-- # map server -->
     <node name="map_server" pkg="map_server" type="map_server" args="$(find docking_sim)/map/cloister_map.yaml" />
+    <!-- <node name="map_server" pkg="map_server" type="map_server" args="$(find docking_sim)/map/playpen_map.yaml" /> -->
 
     <!--- # AMCL -->
     <include file="$(find ros_my_localization)/launch/amcl.launch">
