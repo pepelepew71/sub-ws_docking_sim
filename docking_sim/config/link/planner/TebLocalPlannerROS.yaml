@@ -12,7 +12,8 @@ TebLocalPlannerROS:
   teb_autosize: True
   dt_ref: 0.3
   dt_hysteresis: 0.1
-  global_plan_overwrite_orientation: True
+  # global_plan_overwrite_orientation: True
+  global_plan_overwrite_orientation: False
   allow_init_with_backwards_motion: True
   max_global_plan_lookahead_dist: 3.0
   global_plan_viapoint_sep: -1
@@ -43,7 +44,7 @@ TebLocalPlannerROS:
   # GoalTolerance
 
   xy_goal_tolerance: 0.2
-  yaw_goal_tolerance: 0.26  # 15 degree
+  yaw_goal_tolerance: 0.2
   free_goal_vel: False
   complete_global_plan: True
 
