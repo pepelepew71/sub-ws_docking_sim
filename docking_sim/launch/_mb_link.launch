@@ -29,7 +29,8 @@
         <rosparam file="$(find ros_my_move_base)/config/costmap/local.yaml" command="load" ns="local_costmap" />
 
         <!-- # remap -->
-        <remap from="odom" to="base_link_odom" />
+        <remap from="odom" to="/car1/zed2/zed_node/odom" />
+        <remap from="cmd_vel" to="/car1/naive_cmd" />
         <!-- <remap from="cmd_vel" to="cmd_vel_car1" /> -->
 
     </node>

@@ -3,8 +3,8 @@
 # footprint: [[-0.85, -0.45], [-0.85, 0.45], [0.85, 0.45], [0.85, -0.45]]
 footprint: [[-0.9, -0.5], [-0.9, 0.5], [0.9, 0.5], [0.9, -0.5]]
 
-global_frame: map
-robot_base_frame: base_link
+global_frame: car1/map
+robot_base_frame: car1/center_big_car
 update_frequency: 4.0
 publish_frequency: 3.0
 transform_tolerance: 0.5
@@ -18,7 +18,7 @@ raytrace_range: 4.5
 # http://wiki.ros.org/costmap_2d/hydro/staticmap
 
 static:
-  map_topic: /map
+  map_topic: /car1/map
   subscribe_to_updates: true
 
 # http://wiki.ros.org/costmap_2d/hydro/obstacles
@@ -29,7 +29,7 @@ obstacles_laser:
     data_type: LaserScan
     clearing: true
     marking: true
-    topic: scan_merged
+    topic: /car1/scan_merged
     inf_is_valid: true
 
 # http://wiki.ros.org/costmap_2d/hydro/inflation
