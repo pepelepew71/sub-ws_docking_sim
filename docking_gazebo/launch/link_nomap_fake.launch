@@ -32,13 +32,21 @@
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" respawn="false" output="screen" />
 
     <!-- # static tf -->
+    <node pkg="docking_gazebo" type="fake_big_car_br.py" name="fake_big_car_br" output="screen">
+        <param name="frame_in" value="base_link" />
+        <param name="frame_out" value="base_link2" />
+        <param name="delta_m" value="0.05" />
+        <param name="delta_deg" value="5.0" />
+        <param name="publish_rate" value="5" />
+    </node>
+
     <node pkg="docking_gazebo" type="little_car_br.py" name="little_car_br" output="screen">
-        <param name="frame_base_link" value="base_link" />
+        <param name="frame_base_link" value="base_link2" />
         <param name="frame_car1" value="car1" />
         <param name="frame_car2" value="car2" />
         <param name="car1_imu" value="/car1_imu" />
         <param name="car2_imu" value="/car2_imu" />
-        <param name="publish_rate" value="10" />
+        <param name="publish_rate" value="5" />
     </node>
 
     <!-- # merge scan, delay 2 sec -->
