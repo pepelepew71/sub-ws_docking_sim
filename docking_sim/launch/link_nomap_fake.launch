@@ -6,12 +6,12 @@
     <arg name="rviz_path" default="$(find docking_sim)/rviz/link.rviz"/>
 
     <!-- # gazebo -->
-    <include file="$(find docking_gazebo)/launch/link_nomap.launch">
+    <include file="$(find docking_gazebo)/launch/link_nomap_fake.launch">
         <arg name="gui" value="$(arg gui)"/>
     </include>
 
     <!-- # move_base -->
-    <include file="$(find docking_sim)/launch/_mb_link.launch">
+    <include file="$(find docking_sim)/launch/_mb_link_fake.launch">
         <arg name="use_map" value="false" />
     </include>
 

@@ -8,7 +8,6 @@ from geometry_msgs.msg import TransformStamped
 from sensor_msgs.msg import Imu
 import tf
 import tf2_ros
-import tf_conversions
 
 
 class TfListener:
@@ -30,7 +29,7 @@ class TfListener:
             try:
                 t = self._tf_buffer.lookup_transform(
                     target_frame="odom",
-                    source_frame="base_link",
+                    source_frame=FRAME_BASE_LINK,
                     time=rospy.Time())
             except Exception as err:
                 rospy.loginfo(err)
@@ -79,8 +78,8 @@ def get_car1_tf():
     """
     t = TransformStamped()
     t.header.stamp = rospy.Time.now()
-    t.header.frame_id = "base_link"
-    t.child_frame_id = "car1"
+    t.header.frame_id = FRAME_BASE_LINK
+    t.child_frame_id = FRAME_CAR1
     t.transform.translation.x = 0.465
     t.transform.translation.y = 0.0
     t.transform.translation.z = 0.0
@@ -98,8 +97,8 @@ def get_car2_tf():
     """
     t = TransformStamped()
     t.header.stamp = rospy.Time.now()
-    t.header.frame_id = "base_link"
-    t.child_frame_id = "car2"
+    t.header.frame_id = FRAME_BASE_LINK
+    t.child_frame_id =FRAME_CAR2
     t.transform.translation.x = -0.465
     t.transform.translation.y = 0.0
     t.transform.translation.z = 0.0
@@ -120,10 +119,14 @@ if __name__ == '__main__':
 
     # -- ros node function
     ## -- parameters
-    rospy.init_node('br_big_car')
+    rospy.init_node('little_car_br')
 
-    top_car1_imu = rospy.get_param(param_name="~car1_imu", default="car1_imu")
-    top_car2_imu = rospy.get_param(param_name="~car2_imu", default="car2_imu")
+    FRAME_BASE_LINK = rospy.get_param(param_name="~frame_base_link")
+    FRAME_CAR1 = rospy.get_param(param_name="~frame_car1")
+    FRAME_CAR2 = rospy.get_param(param_name="~frame_car2")
+    top_car1_imu = rospy.get_param(param_name="~car1_imu")
+    top_car2_imu = rospy.get_param(param_name="~car2_imu")
+    pub_rate = rospy.get_param(param_name="~publish_rate")
 
     ## -- subscriber
     rospy.Subscriber(name=top_car1_imu, data_class=Imu, callback=_cb_car1_imu)
@@ -135,7 +138,7 @@ if __name__ == '__main__':
 
     # -- tf broadcaster for car1, car2
     br = tf2_ros.TransformBroadcaster()
-    rate = rospy.Rate(hz=10)
+    rate = rospy.Rate(hz=int(pub_rate))
     try:
         while not rospy.is_shutdown():
             car1_tf = get_car1_tf()

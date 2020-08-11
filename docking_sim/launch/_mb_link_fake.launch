@@ -17,8 +17,8 @@
         <rosparam file="$(find docking_sim)/config/link/planner/TebLocalPlannerROS.yaml" command="load" />
 
         <!-- # costmap common -->
-        <rosparam file="$(find docking_sim)/config/link/costmap/common.yaml" command="load" ns="global_costmap" />
-        <rosparam file="$(find docking_sim)/config/link/costmap/common.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find docking_sim)/config/link/costmap/common_fake.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find docking_sim)/config/link/costmap/common_fake.yaml" command="load" ns="local_costmap" />
 
         <!-- # costmap global -->
         <rosparam if="$(arg use_map)" file="$(find ros_my_move_base)/config/costmap/global_use_map.yaml" command="load" ns="global_costmap" />
