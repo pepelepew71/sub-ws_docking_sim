@@ -24,7 +24,7 @@
         <arg name="scan_topic" value="scan_merged" />
     </include>
     <!-- # static tf -->
-    <!-- <node pkg="tf" type="static_transform_publisher" name="br1" args="0 0 0 0 0 0 1 map odom 30" /> -->
+    <!-- <node pkg="tf" type="static_transform_publisher" name="br1" args="0 0 0 0 0 0 1 map odom 400" /> -->
 
     <!-- # rviz -->
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_path)" />

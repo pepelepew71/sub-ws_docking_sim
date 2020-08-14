@@ -1,0 +1,11 @@
+# http://wiki.ros.org/costmap_2d
+
+global_frame: odom
+robot_base_frame: base_link
+
+rolling_window: true
+transform_tolerance: 0.5
+
+plugins:
+  - {name: obstacles_laser, type: "costmap_2d::ObstacleLayer"}
+  - {name: inflation, type: "costmap_2d::InflationLayer"}

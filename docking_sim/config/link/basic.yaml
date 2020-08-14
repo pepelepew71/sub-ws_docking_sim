@@ -1,0 +1,5 @@
+# http://wiki.ros.org/move_base
+
+controller_frequency: 5.0
+planner_frequency: 0.2
+recovery_behavior_enabled: false

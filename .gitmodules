@@ -1,9 +1,6 @@
 [submodule "obstacle_detector"]
 	path = obstacle_detector
 	url = https://github.com/spiderkiller13/obstacle_detector.git
-[submodule "ros_my_move_base"]
-	path = ros_my_move_base
-	url = https://github.com/pepelepew71/ros_my_move_base.git
 [submodule "ros_my_localization"]
 	path = ros_my_localization
 	url = https://github.com/pepelepew71/ros_my_localization.git

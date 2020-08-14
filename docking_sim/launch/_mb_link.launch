@@ -8,7 +8,7 @@
     <!-- # move_base -->
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
 
-        <rosparam file="$(find ros_my_move_base)/config/basic.yaml" command="load" />
+        <rosparam file="$(find docking_sim)/config/link/basic.yaml" command="load" />
 
         <!-- # planner global -->
         <rosparam file="$(find docking_sim)/config/link/planner/GlobalPlanner.yaml" command="load" />
@@ -21,11 +21,17 @@
         <rosparam file="$(find docking_sim)/config/link/costmap/common.yaml" command="load" ns="local_costmap" />
 
         <!-- # costmap global -->
-        <rosparam if="$(arg use_map)" file="$(find ros_my_move_base)/config/costmap/global_use_map.yaml" command="load" ns="global_costmap" />
-        <rosparam unless="$(arg use_map)" file="$(find ros_my_move_base)/config/costmap/global.yaml" command="load" ns="global_costmap" />
+        <rosparam if="$(arg use_map)"
+                  file="$(find docking_sim)/config/link/costmap/global_use_map.yaml"
+                  command="load"
+                  ns="global_costmap" />
+        <rosparam unless="$(arg use_map)"
+                  file="$(find docking_sim)/config/link/costmap/global.yaml"
+                  command="load"
+                  ns="global_costmap" />
 
         <!-- # costmap local -->
-        <rosparam file="$(find ros_my_move_base)/config/costmap/local.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find docking_sim)/config/link/costmap/local.yaml" command="load" ns="local_costmap" />
 
         <!-- # remap -->
         <remap from="odom" to="base_link_odom" />
