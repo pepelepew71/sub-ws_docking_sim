@@ -4,7 +4,7 @@
 
     <arg name="gui" default="true"/>
     <arg name="rviz_path" default="$(find docking_sim)/rviz/link.rviz"/>
-
+    <arg name="use_fake_local_planner" default="false" />
     <!-- # gazebo -->
     <include file="$(find docking_gazebo)/launch/link.launch">
         <arg name="gui" value="$(arg gui)"/>
@@ -12,6 +12,7 @@
 
     <!-- # move_base -->
     <include file="$(find docking_sim)/launch/_mb_link.launch">
+        <arg name="use_fake_local_planner" value="$(arg use_fake_local_planner)" />
         <!-- <arg name="use_map" value="false" /> -->
     </include>
 
