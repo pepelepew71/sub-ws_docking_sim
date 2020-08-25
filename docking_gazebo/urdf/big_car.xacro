@@ -12,15 +12,20 @@
         <visual>
             <!-- <origin xyz="0 0 0.3" rpy="0 0 0" />
             <geometry>
-                <box size="0.93 0.1 0.05" />
+                <box size="1.0 0.1 0.05" />
             </geometry> -->
-            <origin xyz="0 0 0.36" rpy="0 0 0" />
-            <transparency>1</transparency>
+            <origin xyz="0 0 0.38" rpy="0 0 0" />
             <geometry>
                 <mesh filename="package://docking_gazebo/mesh/double_shelf_v2.stl" />
             </geometry>
         </visual>
-        <xacro:box_inertial_matrix m="1.0" w="0.93" h="0.1" d="0.05" />
+        <collision>
+            <origin xyz="0 0 0.38" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://docking_gazebo/mesh/double_shelf_v2.stl" />
+            </geometry>
+        </collision>
+        <xacro:box_inertial_matrix m="1.0" w="1.0" h="0.1" d="0.05" />
     </link>
 
     <gazebo reference="base_link">
@@ -33,7 +38,7 @@
     <joint name="car1_joint" type="continuous">
         <parent link="base_link" />
         <child link="car1" />
-        <origin xyz="0.465 0 0" rpy="0 0 0" />
+        <origin xyz="0.5 0 0" rpy="0 0 0" />
         <axis xyz="0 0 1" rpy="0 0 0" />
     </joint>
 
@@ -72,7 +77,8 @@
     <joint name="car2_joint" type="continuous">
         <parent link="base_link" />
         <child link="car2" />
-        <origin xyz="-0.465 0 0" rpy="0 0 3.14" />
+        <!-- <origin xyz="-0.465 0 0" rpy="0 0 3.14" /> -->
+        <origin xyz="-0.5 0 0" rpy="0 0 3.14" />
         <axis xyz="0 0 1" rpy="0 0 0" />
     </joint>
 

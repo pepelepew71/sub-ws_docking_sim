@@ -38,9 +38,9 @@ TebLocalPlannerROS:
   # Car-like
 
   cmd_angle_instead_rotvel: True
-  wheelbase: 0.93
+  wheelbase: 1.0
   # min_turning_radius: 0.465
-  min_turning_radius: 0.93
+  min_turning_radius: 1.0
 
   # GoalTolerance
 

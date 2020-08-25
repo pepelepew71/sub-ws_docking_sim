@@ -2,9 +2,11 @@
 
 <launch>
 
+    <!-- # args -->
     <arg name="gui" default="true"/>
     <arg name="rviz_path" default="$(find docking_sim)/rviz/link.rviz"/>
     <arg name="use_fake_local_planner" default="false" />
+
     <!-- # gazebo -->
     <include file="$(find docking_gazebo)/launch/link.launch">
         <arg name="gui" value="$(arg gui)"/>
@@ -31,6 +33,6 @@
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_path)" />
 
     <!-- # rqt_plot -->
-    <node name="rqt_plot" pkg="rqt_plot" type="rqt_plot" />
+    <!-- <node name="rqt_plot" pkg="rqt_plot" type="rqt_plot" /> -->
 
 </launch>

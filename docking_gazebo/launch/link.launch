@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <launch>
+
+    <!-- # args -->
     <arg name="gui" default="true"/>
+
     <!-- # gazebo -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <!-- <arg name="world_name" value="$(find docking_gazebo)/worlds/empty.world" /> -->
